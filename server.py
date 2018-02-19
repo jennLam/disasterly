@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 from jinja2 import StrictUndefined
 import os
+from data import DisasterData
 
 
 app = Flask(__name__)
@@ -9,11 +10,14 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 
 app.jinja_env.undefined = StrictUndefined
 
+dd = DisasterData()
+
 
 @app.route("/")
 def index():
     """Homepage."""
-    return render_template("index.html")
+    return render_template("index.html", incidents=dd.get_categories("incidentType"),
+                           states=dd.get_categories("state"))
 
 
 if __name__ == "__main__":

@@ -1,6 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
-Hello!
+
+<form class="section">
+  <div class="form-group">
+    <label for="incident">Incident Type:</label>
+    <select class="form-control" id="incident" name="incident">
+      <option value="">None</option>
+      {% for incident in incidents %}
+        <option value="{{ incident }}">{{ incident }}</option>
+      {% endfor %}
+    </select>
+    <br/>
+    <label for="state">State:</label>
+    <select class="form-control" id="state" name="state">
+      <option value="">None</option>
+      {% for state in states %}
+        <option value="{{ state }}">{{ state }}</option>
+      {% endfor %}
+    </select>
+    <br/>
+    <label for="start">Start Date:</label><br/>
+    <input class="form-control" type="date" id="startDate" name="start_date"><br/>
+
+    <label for="end">End Date:</label><br/>
+    <input class="form-control" type="date" id="endDate" name="end_date">
+
+  </div>
+  <button id="hh-button" type="submit" class="btn btn-default">Submit</button>
+</form>
+
+<br/>
 
 <div id = "map"></div>
 

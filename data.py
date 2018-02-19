@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import operator as op
 
 
 class DisasterData():
@@ -19,3 +20,34 @@ class DisasterData():
         items = np.array(items).tolist()
 
         return items
+
+    def search_criteria(self, column_name, target, operator):
+        """Specify search condition for dataframe."""
+
+        if column_name not in list(self.df):
+            return
+
+        result = None
+
+        if target:
+            result = operator(self.df[column_name], target)
+        else:
+            result = self.df[column_name] is not None
+
+        return result
+
+    def advanced_search(self, incident_type=None, state=None, start_date=None, end_date=None):
+        """Advanced search of disaster data."""
+
+        condition = self.df
+
+        if incident_type or state or start_date or end_date:
+
+            i = self.search_criteria("incidentType", incident_type, op.eq)
+            s = self.search_criteria("state", state, op.eq)
+            sd = self.search_criteria("incidentBeginDate", start_date, op.ge)
+            ed = self.search_criteria("incidentEndDate", end_date, op.le)
+
+            condition = self.df[i & s & sd & ed]
+
+        return condition

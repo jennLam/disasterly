@@ -16,8 +16,7 @@ dd = DisasterData()
 @app.route("/")
 def index():
     """Homepage."""
-    return render_template("index.html", incidents=dd.get_categories("incidentType"),
-                           states=dd.get_categories("state"))
+    return render_template("index.html", incidents=dd.get_categories("incidentType"))
 
 
 if __name__ == "__main__":

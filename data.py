@@ -36,18 +36,17 @@ class DisasterData():
 
         return result
 
-    def advanced_search(self, incident_type=None, state=None, start_date=None, end_date=None):
+    def advanced_search(self, incident_type=None, start_date=None, end_date=None):
         """Advanced search of disaster data."""
 
         condition = self.df
 
-        if incident_type or state or start_date or end_date:
+        if incident_type or start_date or end_date:
 
             i = self.search_criteria("incidentType", incident_type, op.eq)
-            s = self.search_criteria("state", state, op.eq)
             sd = self.search_criteria("incidentBeginDate", start_date, op.ge)
             ed = self.search_criteria("incidentEndDate", end_date, op.le)
 
-            condition = self.df[i & s & sd & ed]
+            condition = self.df[i & sd & ed]
 
         return condition

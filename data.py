@@ -50,3 +50,16 @@ class DisasterData():
             condition = self.df[i & sd & ed]
 
         return condition
+
+    def create_disaster_dict(self, dataframe):
+        """Create a dictionary with flood, state, county infomration."""
+
+        disaster_dict = {}
+
+        for i, row in dataframe.iterrows():
+
+            disaster_dict[i] = {"incidentType": row["incidentType"],
+                                "state": row["state"],
+                                "declaredCounty": row["declaredCountyArea"]}
+
+        return disaster_dict

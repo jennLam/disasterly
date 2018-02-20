@@ -19,6 +19,27 @@ def index():
     return render_template("index.html", incidents=dd.get_categories("incidentType"))
 
 
+@app.route("/search.json")
+def get_search_results():
+    """Get search results."""
+
+    incident = request.args.get("incident")
+    start_date = request.args.get("start_date")
+    end_date = request.args.get("end_date")
+
+    print incident
+    print start_date
+    print end_date
+
+    adv_search_results = dd.advanced_search(incident_type=incident,
+                                            start_date=start_date, end_date=end_date)
+
+    results = dd.create_disaster_dict(adv_search_results)
+
+    # print results
+
+    return jsonify(results)
+
 if __name__ == "__main__":
 
     app.debug = True

@@ -74,6 +74,15 @@ def get_search_results():
 
     layout = dict(
             title = 'Disaster Data',
+
+            margin= dict(
+            l=0,
+            r=5,
+            b=20,
+            t=40,
+            pad=2
+        ),
+
             geo = dict(
                 scope='usa',
                 projection=dict( type='albers usa' ),

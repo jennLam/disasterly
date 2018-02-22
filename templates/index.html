@@ -1,25 +1,87 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form class="section">
-  <div class="form-group">
-    <label for="incident">Incident Type:</label>
-    <select class="form-control" id="incident" name="incident">
-      <option value="">None</option>
-      {% for incident in incidents %}
-        <option value="{{ incident }}">{{ incident }}</option>
-      {% endfor %}
-    </select>
-    <br/>
-    <label for="start">Start Date:</label><br/>
-    <input class="form-control" type="date" id="startDate" name="start_date"><br/>
 
-    <label for="end">End Date:</label><br/>
-    <input class="form-control" type="date" id="endDate" name="end_date"><br/>
 
+<div class="container-fluid">
+        <div class="row">
+  
+          <div class="col-sm-12">
+            
+            
+
+
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="box">
+            <h4 class="header"><span class="glyphicon glyphicon-tasks"></span> Search
+            </h4>
+
+
+            <form class="section" action="/search" method="GET">
+              <div class="form-group">
+                <label for="incident">Incident Type:</label>
+                <select class="form-control" id="incident" name="incident">
+                  <option value="">None</option>
+                  {% for incident in incidents %}
+                    <option value="{{ incident }}">{{ incident }}</option>
+                  {% endfor %}
+                </select>
+                <br/>
+                <label for="start">Start Date:</label><br/>
+                <input class="form-control" type="date" id="startDate" name="start_date"><br/>
+
+                <label for="end">End Date:</label><br/>
+                <input class="form-control" type="date" id="endDate" name="end_date"><br/>
+
+              </div>
+              <button id="search-button" type="submit" class="btn btn-default">Submit</button>
+            </form>
+            
+
+
+
+          </div>
+        </div>
+        <div class="col-sm-8">
+          <div class="box">
+            <h4 class="header"><span class="glyphicon glyphicon-pawn"></span> Map
+            </h4>
+            
+            {{ hello }}
+          </div>
+        </div>
+
+
+
+
+      </div>
+    </div>
   </div>
-  <button id="search-button" type="submit" class="btn btn-default">Submit</button>
-</form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <br/>
 
@@ -46,7 +108,7 @@ function getSearchResults(evt) {
   $.get("/search.json", searchInputs, showResults);
 }
 
-$("#search-button").on("click", getSearchResults);
+$("#search-button2").on("click", getSearchResults);
 
 </script>
 

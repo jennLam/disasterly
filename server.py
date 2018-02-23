@@ -25,7 +25,7 @@ dd = DisasterData()
 @app.route("/")
 def index():
     """Homepage."""
-    return render_template("index.html", incidents=dd.get_categories("incidentType"), hello="hi")
+    return render_template("index.html", incidents=dd.get_categories("incidentType"), hello="hi", incident_map="hi", time_map="hi")
 
 
 @app.route("/search")
@@ -46,7 +46,8 @@ def get_search_results():
                                             start_date=start_date, end_date=end_date)
 
     state_results = dd.create_disaster_dict3(adv_search_results, "state")
-    incident_results = dd.create_disaster_dict3(adv_search_results, "incidentType") 
+    incident_results = dd.create_disaster_dict3(adv_search_results, "incidentType")
+    time_results = dd.disaster_dict_timeline_dict(adv_search_results)
 
     
     scl = [[0.0, 'rgb(242,240,247)'],[0.2, 'rgb(218,218,235)'],[0.4, 'rgb(188,189,220)'],\
@@ -124,13 +125,13 @@ def get_search_results():
     data2 = [trace0]
     layout2 = go.Layout(
         title='Disaster Incident Types',
-        margin= dict(
-            l=40,
-            r=15,
-            b=140,
-            t=50,
-            pad=2
-        )
+        # margin= dict(
+        #     l=40,
+        #     r=15,
+        #     b=140,
+        #     t=50,
+        #     pad=2
+        # )
     )
 
     fig2 = go.Figure(data=data2, layout=layout2)
@@ -139,8 +140,42 @@ def get_search_results():
 
 
 
+
+
+
+
+    month = time_results.keys()
+
+    high_2007 = time_results.values()
+
+
+
+    trace = go.Scatter(
+        x = month,
+        y = high_2007,
+        name = 'High 2007',
+        line = dict(
+            color = ('rgb(205, 12, 24)'),
+            width = 4,
+            dash = 'dot') # dash options include 'dash', 'dot', and 'dashdot'
+    )
+
+    data = [trace]
+
+    # Edit the layout
+    layout = dict(title = 'Disaster by Time',
+                  xaxis = dict(title = 'Time'),
+                  yaxis = dict(title = 'Number of Disasters'),
+                  )
+
+    fig3 = dict(data=data, layout=layout)
+    plot_div3 = plot(fig3, output_type="div")
+
+
+
     return render_template("index.html", incidents=dd.get_categories("incidentType"),
-                           hello=Markup(plot_div), incident_map=Markup(plot_div2))
+                           hello=Markup(plot_div), incident_map=Markup(plot_div2),
+                           time_map=Markup(plot_div3))
 
 if __name__ == "__main__":
 

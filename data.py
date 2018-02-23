@@ -64,18 +64,6 @@ class DisasterData():
 
         return disaster_dict
 
-
-    def create_disaster_dict2(self, dataframe):
-        """Create a dictionary with flood, state, county infomration."""
-
-        disaster_dict = {}
-
-        for i, row in dataframe.iterrows():
-
-            disaster_dict[row["state"]] = disaster_dict.get(row["state"], 0) + 1
-
-        return disaster_dict
-
     def create_disaster_dict3(self, dataframe, column_name):
         """Create a dictionary with flood, state, county infomration."""
 
@@ -84,5 +72,23 @@ class DisasterData():
         for i, row in dataframe.iterrows():
 
             disaster_dict[row[column_name]] = disaster_dict.get(row[column_name], 0) + 1
+
+        return disaster_dict
+
+    def disaster_dict_timeline_dict(self, dataframe):
+        """Create a dictionary for incidents based on timeline."""
+
+        disaster_dict = {}
+
+        start_date = dataframe["incidentBeginDate"].head(1).iloc[0]
+        end_date = dataframe["incidentBeginDate"].tail(1).iloc[0]
+
+        if start_date.year == end_date.year:
+            for i, row in dataframe.iterrows():
+                disaster_dict[row["incidentBeginDate"].month] = disaster_dict.get(row["incidentBeginDate"].month, 0) + 1
+
+        else:
+            for i, row in dataframe.iterrows():
+                disaster_dict[row["incidentBeginDate"].year] = disaster_dict.get(row["incidentBeginDate"].year, 0) + 1
 
         return disaster_dict

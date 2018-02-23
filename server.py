@@ -6,6 +6,7 @@ from data import DisasterData
 
 import plotly.plotly as py
 import plotly.graph_objs as go
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -35,9 +36,11 @@ def get_search_results():
     start_date = request.args.get("start_date")
     end_date = request.args.get("end_date")
 
-    print incident
-    print start_date
-    print end_date
+    # print incident
+    # blah_date = datetime.strptime(start_date, "%Y-%m-%d")
+    # print end_date
+    # print type(blah_date)
+
 
     adv_search_results = dd.advanced_search(incident_type=incident,
                                             start_date=start_date, end_date=end_date)
@@ -54,7 +57,7 @@ def get_search_results():
     "Country "
 
     adv_search_results["count"] = 1
-    print adv_search_results
+    # print adv_search_results
 
     data = [ dict(
             type='choropleth',

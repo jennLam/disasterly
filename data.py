@@ -64,6 +64,7 @@ class DisasterData():
 
         return disaster_dict
 
+
     def create_disaster_dict2(self, dataframe):
         """Create a dictionary with flood, state, county infomration."""
 
@@ -72,5 +73,16 @@ class DisasterData():
         for i, row in dataframe.iterrows():
 
             disaster_dict[row["state"]] = disaster_dict.get(row["state"], 0) + 1
+
+        return disaster_dict
+
+    def create_disaster_dict3(self, dataframe, column_name):
+        """Create a dictionary with flood, state, county infomration."""
+
+        disaster_dict = {}
+
+        for i, row in dataframe.iterrows():
+
+            disaster_dict[row[column_name]] = disaster_dict.get(row[column_name], 0) + 1
 
         return disaster_dict

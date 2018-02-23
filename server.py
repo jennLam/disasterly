@@ -4,6 +4,9 @@ import os
 from plotly.offline import plot
 from data import DisasterData
 
+import plotly.plotly as py
+import plotly.graph_objs as go
+
 
 app = Flask(__name__)
 
@@ -39,7 +42,8 @@ def get_search_results():
     adv_search_results = dd.advanced_search(incident_type=incident,
                                             start_date=start_date, end_date=end_date)
 
-    results = dd.create_disaster_dict2(adv_search_results)
+    state_results = dd.create_disaster_dict3(adv_search_results, "state")
+    incident_results = dd.create_disaster_dict3(adv_search_results, "incidentType") 
 
     
     scl = [[0.0, 'rgb(242,240,247)'],[0.2, 'rgb(218,218,235)'],[0.4, 'rgb(188,189,220)'],\
@@ -56,8 +60,8 @@ def get_search_results():
             type='choropleth',
             colorscale = scl,
             autocolorscale = False,
-            locations = results.keys(),
-            z = results.values(),
+            locations = state_results.keys(),
+            z = state_results.values(),
             locationmode = 'USA-states',
             stream = dict (
                 maxpoints = 10000
@@ -94,12 +98,46 @@ def get_search_results():
     # blah = py.iplot( fig, filename='d3-cloropleth-map' )
     plot_div = plot(fig, output_type="div")
 
-    print plot_div
 
 
 
 
-    return render_template("index.html", incidents=dd.get_categories("incidentType"), hello=Markup(plot_div))
+
+
+
+    trace0 = go.Bar(
+        x=incident_results.keys(),
+        y=incident_results.values(),
+        marker=dict(
+            color='rgb(158,202,225)',
+            line=dict(
+                color='rgb(8,48,107)',
+                width=1.5,
+            )
+        ),
+        opacity=0.6
+    )
+
+    data2 = [trace0]
+    layout2 = go.Layout(
+        title='Disaster Incident Types',
+        margin= dict(
+            l=40,
+            r=15,
+            b=140,
+            t=50,
+            pad=2
+        )
+    )
+
+    fig2 = go.Figure(data=data2, layout=layout2)
+    # py.iplot(fig, filename='text-hover-bar')
+    plot_div2 = plot(fig2, output_type="div")
+
+
+
+    return render_template("index.html", incidents=dd.get_categories("incidentType"),
+                           hello=Markup(plot_div), incident_map=Markup(plot_div2))
 
 if __name__ == "__main__":
 

@@ -79,7 +79,7 @@ def get_search_results():
             l=0,
             r=5,
             b=20,
-            t=40,
+            t=45,
             pad=2
         ),
 
@@ -93,6 +93,8 @@ def get_search_results():
     fig = dict( data=data, layout=layout )
     # blah = py.iplot( fig, filename='d3-cloropleth-map' )
     plot_div = plot(fig, output_type="div")
+
+    print plot_div
 
 
 

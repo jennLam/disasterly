@@ -47,18 +47,66 @@
           <div class="box">
             <h4 class="header"><span class="glyphicon glyphicon-pawn"></span> Map
             </h4>
-            
+            <div id="mapbox">
             {{ hello }}
+          </div>
           </div>
         </div>
 
 
 
 
+
+
       </div>
+
+      <br/>
+
+
+        <div class="row">
+
+          <div class="col-sm-4">
+            <div class="box">
+              <h4 class="header"><span class="glyphicon glyphicon-pawn"></span> Map
+              </h4>
+              <div id="mapbox">
+              hello
+            </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="box">
+              <h4 class="header"><span class="glyphicon glyphicon-pawn"></span> Map
+              </h4>
+              <div id="mapbox">
+              hello
+            </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="box">
+              <h4 class="header"><span class="glyphicon glyphicon-pawn"></span> Map
+              </h4>
+              <div id="mapbox">
+              hello
+            </div>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
 </div>
+
+<script>
+function getInfo(d) {
+
+   console.log(d);
+}
+
+$("#mapbox").on("plotly_click", getInfo);
+
+
+</script>
 
 
 

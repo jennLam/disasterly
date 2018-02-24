@@ -135,5 +135,3 @@ class DisasterData():
 
 
         return disaster_dict
-
-

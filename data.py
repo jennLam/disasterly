@@ -100,6 +100,7 @@ class DisasterData():
     def make_dict(self, dataframe):
 
         disaster_dict = {"state": {},
+                         "state_county": {},
                          "incident": {},
                          "date": {}}
 
@@ -111,15 +112,13 @@ class DisasterData():
             date = row["incidentBeginDate"]
 
             #state
-            if state not in disaster_dict["state"]:
-                disaster_dict["state"][state] = {"total": 1, "county": {county: 1}}
-            else:
-                disaster_dict["state"][state]["total"] += 1
+            disaster_dict["state"][state] = disaster_dict["state"].get(state, 0) + 1
 
-                if county not in disaster_dict["state"][state]["county"]:
-                    disaster_dict["state"][state]["county"][county] = 1
-                else:
-                    disaster_dict["state"][state]["county"][county] += 1
+            #state and county
+            if state not in disaster_dict["state_county"]:
+                disaster_dict["state_county"][state] = {county: 1}
+            else:
+                disaster_dict["state_county"][state][county] = disaster_dict["state_county"][state].get(county, 0) + 1
 
             #incident
             disaster_dict["incident"][incident] = disaster_dict["incident"].get(incident, 0) + 1

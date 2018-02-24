@@ -18,8 +18,26 @@
             </h4>
 
 
-            <div id="mapbox">
-            hi
+            <div class="list">
+
+              <ul class="list-group" id="myList">
+
+              {% for county in counties|sort %}
+              
+                <li class="list-group-item">{{ county }}</li>
+                  <ul class="list-group" id="myList">
+                  {% for c in counties[county] %}
+                    
+                    <li class="list-group-item">{{ c }}</li>
+                    
+                  {% endfor %}
+                </ul>
+
+
+              
+              {% endfor %}
+              </ul> 
+      
           </div>
           
           </div>

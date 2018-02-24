@@ -1,7 +1,5 @@
 from plotly.offline import plot
-import plotly.plotly as py
 import plotly.graph_objs as go
-from datetime import datetime
 
 
 def choropleth_map(locations_lst, z_lst):

@@ -1,13 +1,8 @@
 from flask import Flask, render_template, jsonify, request, Markup
 from jinja2 import StrictUndefined
 import os
-from plotly.offline import plot
 from data import DisasterData
-
-import plotly.plotly as py
-import plotly.graph_objs as go
-from datetime import datetime
-import map
+import visual
 
 
 app = Flask(__name__)
@@ -17,7 +12,6 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 app.jinja_env.undefined = StrictUndefined
 
 dd = DisasterData()
-
 
 
 @app.route("/")
@@ -40,13 +34,13 @@ def get_search_results():
 
     results_dict = dd.make_dict(adv_search_results)
 
-    us_plot_div = map.choropleth_map(results_dict["state"].keys(), results_dict["state"].values())
-    incident_plot_div = map.bar_graph(results_dict["incident"].keys(), results_dict["incident"].values())
-    time_plot_div = map.line_graph(results_dict["date"].keys(), results_dict["date"].values())
+    us_plot_div = visual.choropleth_map(results_dict["state"].keys(), results_dict["state"].values())
+    incident_plot_div = visual.bar_graph(results_dict["incident"].keys(), results_dict["incident"].values())
+    time_plot_div = visual.line_graph(results_dict["date"].keys(), results_dict["date"].values())
 
     return render_template("index.html", incidents=dd.get_categories("incidentType"),
                            hello=Markup(us_plot_div), incident_map=Markup(incident_plot_div),
-                           time_map=Markup(time_plot_div))
+                           time_map=Markup(time_plot_div), counties=results_dict["state_county"])
 
 if __name__ == "__main__":
 

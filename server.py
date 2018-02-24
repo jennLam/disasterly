@@ -38,14 +38,11 @@ def get_search_results():
     adv_search_results = dd.advanced_search(incident_type=incident,
                                             start_date=start_date, end_date=end_date)
 
-    state_results = dd.create_disaster_dict3(adv_search_results, "state")
-    incident_results = dd.create_disaster_dict3(adv_search_results, "incidentType")
-    time_results = dd.disaster_dict_timeline_dict(adv_search_results)
-    county_results = dd.create_disaster_dict3(adv_search_results, "declaredCountyArea")
+    results_dict = dd.make_dict(adv_search_results)
 
-    us_plot_div = map.choropleth_map(state_results.keys(), state_results.values())
-    incident_plot_div = map.bar_graph(incident_results.keys(), incident_results.values())
-    time_plot_div = map.line_graph(time_results.keys(), time_results.values())
+    us_plot_div = map.choropleth_map(results_dict["state"].keys(), results_dict["state"].values())
+    incident_plot_div = map.bar_graph(results_dict["incident"].keys(), results_dict["incident"].values())
+    time_plot_div = map.line_graph(results_dict["date"].keys(), results_dict["date"].values())
 
     return render_template("index.html", incidents=dd.get_categories("incidentType"),
                            hello=Markup(us_plot_div), incident_map=Markup(incident_plot_div),

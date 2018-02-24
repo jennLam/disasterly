@@ -25,7 +25,8 @@ dd = DisasterData()
 @app.route("/")
 def index():
     """Homepage."""
-    return render_template("index.html", incidents=dd.get_categories("incidentType"), hello="hi", incident_map="hi", time_map="hi")
+    return render_template("index.html", incidents=dd.get_categories("incidentType"),
+                           hello="hi", incident_map="hi", time_map="hi", county_map="hi")
 
 
 @app.route("/search")
@@ -48,6 +49,7 @@ def get_search_results():
     state_results = dd.create_disaster_dict3(adv_search_results, "state")
     incident_results = dd.create_disaster_dict3(adv_search_results, "incidentType")
     time_results = dd.disaster_dict_timeline_dict(adv_search_results)
+    county_results = dd.create_disaster_dict3(adv_search_results, "declaredCountyArea")
 
     
     scl = [[0.0, 'rgb(242,240,247)'],[0.2, 'rgb(218,218,235)'],[0.4, 'rgb(188,189,220)'],\
@@ -160,22 +162,47 @@ def get_search_results():
             dash = 'dot') # dash options include 'dash', 'dot', and 'dashdot'
     )
 
-    data = [trace]
+    data3 = [trace]
 
     # Edit the layout
-    layout = dict(title = 'Disaster by Time',
+    layout3 = dict(title = 'Disaster by Time',
                   xaxis = dict(title = 'Time'),
                   yaxis = dict(title = 'Number of Disasters'),
                   )
 
-    fig3 = dict(data=data, layout=layout)
+    fig3 = dict(data=data3, layout=layout3)
     plot_div3 = plot(fig3, output_type="div")
+
+
+
+
+
+
+
+
+
+
+    labels = county_results.keys()
+    values = county_results.values()
+    colors = ['#FEBFB3', '#E1396C', '#96D38C', '#D0F9B1']
+
+    trace1 = go.Pie(labels=labels, values=values,
+                   hoverinfo='label+percent', textinfo='value', 
+                   textfont=dict(size=20),
+                   marker=dict(colors=colors, 
+                               line=dict(color='#000000', width=2)))
+
+    data4= [trace1]
+
+    # py.iplot([trace], filename='styled_pie_chart')
+    fig4 = dict(data=data4)
+    plot_div4 = plot(fig4, output_type="div")
 
 
 
     return render_template("index.html", incidents=dd.get_categories("incidentType"),
                            hello=Markup(plot_div), incident_map=Markup(plot_div2),
-                           time_map=Markup(plot_div3))
+                           time_map=Markup(plot_div3), county_map=Markup(plot_div4))
 
 if __name__ == "__main__":
 

@@ -45,7 +45,7 @@ class DisasterData():
 
             i = self.search_criteria("incidentType", incident_type, op.eq)
             sd = self.search_criteria("incidentBeginDate", start_date, op.ge)
-            ed = self.search_criteria("incidentEndDate", end_date, op.le)
+            ed = self.search_criteria("incidentBeginDate", end_date, op.le)
 
             condition = self.df[i & sd & ed]
 
@@ -80,15 +80,60 @@ class DisasterData():
 
         disaster_dict = {}
 
-        start_date = dataframe["incidentBeginDate"].head(1).iloc[0]
-        end_date = dataframe["incidentBeginDate"].tail(1).iloc[0]
+        if not dataframe.empty:
 
-        if start_date.year == end_date.year:
-            for i, row in dataframe.iterrows():
-                disaster_dict[row["incidentBeginDate"].month] = disaster_dict.get(row["incidentBeginDate"].month, 0) + 1
+            
 
-        else:
-            for i, row in dataframe.iterrows():
-                disaster_dict[row["incidentBeginDate"].year] = disaster_dict.get(row["incidentBeginDate"].year, 0) + 1
+            start_date = dataframe["incidentBeginDate"].head(1).iloc[0]
+            end_date = dataframe["incidentBeginDate"].tail(1).iloc[0]
+
+            if start_date.year == end_date.year:
+                for i, row in dataframe.iterrows():
+                    disaster_dict[row["incidentBeginDate"].month] = disaster_dict.get(row["incidentBeginDate"].month, 0) + 1
+
+            else:
+                for i, row in dataframe.iterrows():
+                    disaster_dict[row["incidentBeginDate"].year] = disaster_dict.get(row["incidentBeginDate"].year, 0) + 1
 
         return disaster_dict
+
+    def make_dict(self, dataframe):
+
+        disaster_dict = {"state": {},
+                         "incident": {},
+                         "date": {}}
+
+        for i, row in dataframe.iterrows():
+
+            state = row["state"]
+            county = row["declaredCountyArea"]
+            incident = row["incidentType"]
+            date = row["incidentBeginDate"]
+
+            #state
+            if state not in disaster_dict["state"]:
+                disaster_dict["state"][state] = {"total": 1, "county": {county: 1}}
+            else:
+                disaster_dict["state"][state]["total"] += 1
+
+                if county not in disaster_dict["state"][state]["county"]:
+                    disaster_dict["state"][state]["county"][county] = 1
+                else:
+                    disaster_dict["state"][state]["county"][county] += 1
+
+            #incident
+            disaster_dict["incident"][incident] = disaster_dict["incident"].get(incident, 0) + 1
+
+            #date
+            start_date = dataframe["incidentBeginDate"].head(1).iloc[0]
+            end_date = dataframe["incidentBeginDate"].tail(1).iloc[0]
+
+            if start_date.year == end_date.year:
+                disaster_dict["date"][date.month] = disaster_dict["date"].get(date.month, 0) + 1
+            else:
+                disaster_dict["date"][date.year] = disaster_dict["date"].get(date.year, 0) + 1
+
+
+        return disaster_dict
+
+

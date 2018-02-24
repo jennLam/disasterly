@@ -51,3 +51,62 @@ def choropleth_map(locations_lst, z_lst):
     plot_div = plot(fig, output_type="div")
 
     return plot_div
+
+
+def bar_graph(x_lst, y_lst):
+    trace = go.Bar(
+        x=x_lst,
+        y=y_lst,
+        marker=dict(
+            color='rgb(158,202,225)',
+            line=dict(
+                color='rgb(8,48,107)',
+                width=1.5,
+            )
+        ),
+        opacity=0.6
+    )
+
+    data = [trace]
+    layout = go.Layout(
+        title='Disaster Incident Types',
+        # margin= dict(
+        #     l=40,
+        #     r=15,
+        #     b=140,
+        #     t=50,
+        #     pad=2
+        # )
+    )
+
+    fig = go.Figure(data=data, layout=layout)
+
+    plot_div = plot(fig, output_type="div")
+
+    return plot_div
+
+
+def line_graph(x_lst, y_lst):
+
+    trace = go.Scatter(
+        x=x_lst,
+        y=y_lst,
+        name='Time',
+        line=dict(
+            color=('rgb(205, 12, 24)'),
+            width=4,
+            dash='dot')
+    )
+
+    data = [trace]
+
+    # Edit the layout
+    layout = dict(title='Disaster by Time',
+                  xaxis=dict(title='Time'),
+                  yaxis=dict(title='Number of Disasters'),
+                  )
+
+    fig = dict(data=data, layout=layout)
+    plot_div = plot(fig, output_type="div")
+
+    return plot_div

@@ -44,77 +44,12 @@ def get_search_results():
     county_results = dd.create_disaster_dict3(adv_search_results, "declaredCountyArea")
 
     us_plot_div = map.choropleth_map(state_results.keys(), state_results.values())
-
-
-    trace0 = go.Bar(
-        x=incident_results.keys(),
-        y=incident_results.values(),
-        marker=dict(
-            color='rgb(158,202,225)',
-            line=dict(
-                color='rgb(8,48,107)',
-                width=1.5,
-            )
-        ),
-        opacity=0.6
-    )
-
-    data2 = [trace0]
-    layout2 = go.Layout(
-        title='Disaster Incident Types',
-        # margin= dict(
-        #     l=40,
-        #     r=15,
-        #     b=140,
-        #     t=50,
-        #     pad=2
-        # )
-    )
-
-    fig2 = go.Figure(data=data2, layout=layout2)
-    # py.iplot(fig, filename='text-hover-bar')
-    plot_div2 = plot(fig2, output_type="div")
-
-
-
-
-
-
-
-    month = time_results.keys()
-
-    high_2007 = time_results.values()
-
-
-
-    trace = go.Scatter(
-        x = month,
-        y = high_2007,
-        name = 'High 2007',
-        line = dict(
-            color = ('rgb(205, 12, 24)'),
-            width = 4,
-            dash = 'dot') # dash options include 'dash', 'dot', and 'dashdot'
-    )
-
-    data3 = [trace]
-
-    # Edit the layout
-    layout3 = dict(title = 'Disaster by Time',
-                  xaxis = dict(title = 'Time'),
-                  yaxis = dict(title = 'Number of Disasters'),
-                  )
-
-    fig3 = dict(data=data3, layout=layout3)
-    plot_div3 = plot(fig3, output_type="div")
-
-
-
-
+    incident_plot_div = map.bar_graph(incident_results.keys(), incident_results.values())
+    time_plot_div = map.line_graph(time_results.keys(), time_results.values())
 
     return render_template("index.html", incidents=dd.get_categories("incidentType"),
-                           hello=Markup(us_plot_div), incident_map=Markup(plot_div2),
-                           time_map=Markup(plot_div3))
+                           hello=Markup(us_plot_div), incident_map=Markup(incident_plot_div),
+                           time_map=Markup(time_plot_div))
 
 if __name__ == "__main__":
 

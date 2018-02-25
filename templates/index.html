@@ -7,15 +7,36 @@
         <div class="row">
   
           <div class="col-sm-12">
+
+            <div class="row">
+
+        <div class="col-sm-5">
+          <div class="header">
+            <span class="glyphicon glyphicon-certificate"></span> 
+            Which Counties Were Affected? 
+            <span class="glyphicon glyphicon-certificate"></span>
+          </div>
+        </div>
+        <div class="col-sm-7">
+          <div class="header">
+            <span class="glyphicon glyphicon-certificate"></span> 
+            How Many Disasters Occurred in Each US State?
+            <span class="glyphicon glyphicon-certificate"></span> 
+          </div>
+        </div>
+
+      </div>
             
             
 
 
       <div class="row">
-        <div class="col-sm-4">
+
+
+        <div class="col-sm-5">
           <div class="box">
-            <h4 class="header"><span class="glyphicon glyphicon-tasks"></span> Search
-            </h4>
+            <!-- <h4 class="title"><span class="glyphicon glyphicon-tasks"></span> Search
+            </h4> -->
 
 
             <div class="list">
@@ -43,13 +64,13 @@
           
           </div>
         </div>
-        <div class="col-sm-8">
-          <div class="box">
-            <h4 class="header"><span class="glyphicon glyphicon-pawn"></span> Map
-            </h4>
-            <div id="mapbox">
+        <div class="col-sm-7">
+          <div class="box mapbox">
+           <!--  <h4 class="title"><span class="glyphicon glyphicon-pawn"></span> Map
+            </h4> -->
+            <!-- <div class="visual"> -->
             {{ hello }}
-          </div>
+          <!-- </div> -->
           </div>
         </div>
 
@@ -63,25 +84,45 @@
       <br/>
 
 
+      <div class="row">
+
+        <div class="col-sm-6">
+          <div class="header">
+            <span class="glyphicon glyphicon-certificate"></span> 
+            Incident Types
+            <span class="glyphicon glyphicon-certificate"></span> 
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="header">
+            <span class="glyphicon glyphicon-certificate"></span> 
+            Disasters Over Time
+            <span class="glyphicon glyphicon-certificate"></span> 
+          </div>
+        </div>
+
+      </div>
+
+
         <div class="row">
 
           <div class="col-sm-6">
             <div class="box">
-              <h4 class="header"><span class="glyphicon glyphicon-pawn"></span> Map
-              </h4>
-              <div id="mapbox">
+<!--               <h4 class="title"><span class="glyphicon glyphicon-pawn"></span> Map
+              </h4> -->
+              <!-- <div class="visual"> -->
               {{ incident_map }}
-            </div>
+            <!-- </div> -->
             </div>
           </div>
 
           <div class="col-sm-6">
             <div class="box">
-              <h4 class="header"><span class="glyphicon glyphicon-pawn"></span> Map
-              </h4>
-              <div id="mapbox">
+<!--               <h4 class="title"><span class="glyphicon glyphicon-pawn"></span> Map
+              </h4> -->
+              <!-- <div class="visual"> -->
               {{ time_map }}
-            </div>
+            <!-- </div> -->
             </div>
           </div>
 

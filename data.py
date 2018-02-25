@@ -51,52 +51,6 @@ class DisasterData():
 
         return condition
 
-    def create_disaster_dict(self, dataframe):
-        """Create a dictionary with flood, state, county infomration."""
-
-        disaster_dict = {}
-
-        for i, row in dataframe.iterrows():
-
-            disaster_dict[i] = {"incidentType": row["incidentType"],
-                                "state": row["state"],
-                                "declaredCounty": row["declaredCountyArea"]}
-
-        return disaster_dict
-
-    def create_disaster_dict3(self, dataframe, column_name):
-        """Create a dictionary with flood, state, county infomration."""
-
-        disaster_dict = {}
-
-        for i, row in dataframe.iterrows():
-
-            disaster_dict[row[column_name]] = disaster_dict.get(row[column_name], 0) + 1
-
-        return disaster_dict
-
-    def disaster_dict_timeline_dict(self, dataframe):
-        """Create a dictionary for incidents based on timeline."""
-
-        disaster_dict = {}
-
-        if not dataframe.empty:
-
-            
-
-            start_date = dataframe["incidentBeginDate"].head(1).iloc[0]
-            end_date = dataframe["incidentBeginDate"].tail(1).iloc[0]
-
-            if start_date.year == end_date.year:
-                for i, row in dataframe.iterrows():
-                    disaster_dict[row["incidentBeginDate"].month] = disaster_dict.get(row["incidentBeginDate"].month, 0) + 1
-
-            else:
-                for i, row in dataframe.iterrows():
-                    disaster_dict[row["incidentBeginDate"].year] = disaster_dict.get(row["incidentBeginDate"].year, 0) + 1
-
-        return disaster_dict
-
     def make_dict(self, dataframe):
 
         disaster_dict = {"state": {},
@@ -127,11 +81,9 @@ class DisasterData():
             disaster_dict["incident"][incident] = disaster_dict["incident"].get(incident, 0) + 1
 
             #date
-
             if start_date.year == end_date.year:
                 disaster_dict["date"][date.month] = disaster_dict["date"].get(date.month, 0) + 1
             else:
                 disaster_dict["date"][date.year] = disaster_dict["date"].get(date.year, 0) + 1
-
 
         return disaster_dict

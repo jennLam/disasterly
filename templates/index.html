@@ -2,13 +2,11 @@
 {% block content %}
 
 
-
 <div class="container-fluid">
-        <div class="row">
-  
-          <div class="col-sm-12">
+  <div class="row">
+    <div class="col-sm-12">
 
-            <div class="row">
+      <div class="row">
 
         <div class="col-sm-5">
           <div class="header">
@@ -17,6 +15,7 @@
             <span class="glyphicon glyphicon-certificate"></span>
           </div>
         </div>
+
         <div class="col-sm-7">
           <div class="header">
             <span class="glyphicon glyphicon-certificate"></span> 
@@ -27,62 +26,35 @@
 
       </div>
             
-            
-
-
       <div class="row">
-
 
         <div class="col-sm-5">
           <div class="box">
-            <!-- <h4 class="title"><span class="glyphicon glyphicon-tasks"></span> Search
-            </h4> -->
-
-
             <div class="list">
-
               <ul>
-
-              {% for county in counties|sort %}
-              
+                {% for county in counties|sort %}
                 <li class="content">{{ county }}</li>
                   <ul>
-                  {% for c in counties[county] %}
-                    
+                    {% for c in counties[county] %}
                     <li class="content">{{ c }}: {{ counties[county][c] }}</li>
-                    
-                  {% endfor %}
-                  <br/>
-                </ul>
-
-
-              
-              {% endfor %}
+                    {% endfor %}
+                    <br/>
+                  </ul>
+                {% endfor %}
               </ul> 
-      
-          </div>
-          
+            </div>
           </div>
         </div>
+
         <div class="col-sm-7">
-          <div class="box mapbox">
-           <!--  <h4 class="title"><span class="glyphicon glyphicon-pawn"></span> Map
-            </h4> -->
-            <!-- <div class="visual"> -->
+          <div class="box">
             {{ hello }}
-          <!-- </div> -->
           </div>
         </div>
-
-
-
-
-
 
       </div>
 
       <br/>
-
 
       <div class="row">
 
@@ -93,6 +65,7 @@
             <span class="glyphicon glyphicon-certificate"></span> 
           </div>
         </div>
+
         <div class="col-sm-6">
           <div class="header">
             <span class="glyphicon glyphicon-certificate"></span> 
@@ -103,30 +76,22 @@
 
       </div>
 
-
         <div class="row">
 
           <div class="col-sm-6">
             <div class="box">
-<!--               <h4 class="title"><span class="glyphicon glyphicon-pawn"></span> Map
-              </h4> -->
-              <!-- <div class="visual"> -->
               {{ incident_map }}
-            <!-- </div> -->
             </div>
           </div>
 
           <div class="col-sm-6">
             <div class="box">
-<!--               <h4 class="title"><span class="glyphicon glyphicon-pawn"></span> Map
-              </h4> -->
-              <!-- <div class="visual"> -->
               {{ time_map }}
-            <!-- </div> -->
             </div>
           </div>
 
         </div>
+        
     </div>
   </div>
 </div>

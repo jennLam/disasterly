@@ -118,8 +118,6 @@ def line_graph(x_lst, y_lst):
 
     data = [trace]
 
-    # Edit the layout
-    # title='Disaster by Time',
     layout = dict(
         # xaxis=dict(title='Time'),
         # yaxis=dict(title='Number of Disasters'),

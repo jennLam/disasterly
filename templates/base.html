@@ -10,11 +10,6 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <script src="https://maps.googleapis.com/maps/api/js"></script>
-
-
-    
-
     <link rel="stylesheet" type="text/css" href="/static/checkr.css">
 
     <link href="https://fonts.googleapis.com/css?family=Lato:300|Patua+One" rel="stylesheet">
@@ -23,49 +18,46 @@
   <body>
 
     <nav class="navbar navbar-default">
-  <div class="container-fluid">
+      <div class="container-fluid">
    
-    <div class="navbar-header">
-
-      <a class="navbar-brand" href="#">Disaster Data</a>
-    </div>
-
-   
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      
-      <form action="/search" method="GET" class="navbar-form navbar-right" role="form">
-
-        <div class="input-group">
-            <span class="input-group-addon">Incident Type</span>
-            <select class="form-control" id="incident" name="incident">
-                  <option value="">None</option>
-                  {% for incident in incidents %}
-                    <option value="{{ incident }}">{{ incident }}</option>
-                  {% endfor %}
-            </select>                                        
-        </div>
-        <div class="input-group">
-            <span class="input-group-addon">Start Date</span>
-            <input class="form-control" type="date" id="startDate" name="start_date">                                        
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Disaster Data</a>
         </div>
 
-        <div class="input-group">
-            <span class="input-group-addon">End Date</span>
-            <input class="form-control" type="date" id="endDate" name="end_date">                                        
-        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  
+          <form action="/search" method="GET" class="navbar-form navbar-right" role="form">
+            <div class="input-group">
+              <span class="input-group-addon">Incident Type</span>
+              <select class="form-control" id="incident" name="incident">
+                <option value="">None</option>
+                {% for incident in incidents %}
+                <option value="{{ incident }}">{{ incident }}</option>
+                {% endfor %}
+              </select>                                        
+            </div>
+            
+            <div class="input-group">
+              <span class="input-group-addon">Start Date</span>
+              <input class="form-control" type="date" id="startDate" name="start_date">                                        
+            </div>
 
-        <button id="search-button" type="submit" class="btn btn-default">Submit</button>
-     </form>
+            <div class="input-group">
+              <span class="input-group-addon">End Date</span>
+              <input class="form-control" type="date" id="endDate" name="end_date">                                        
+            </div>
+
+            <button id="search-button" type="submit" class="btn btn-default">Submit</button>
+         </form>
      
-    </div>
-  </div>
-</nav>
-<br/>
+        </div>
+      </div>
+    </nav>
+    <br/>
 
-
-  {% block content %}
-    put your content here
-  {% endblock %}
+    {% block content %}
+      put your content here
+    {% endblock %}
 
   </body>
 </html>

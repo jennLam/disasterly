@@ -3,6 +3,7 @@ from jinja2 import StrictUndefined
 import os
 from data import DisasterData
 import visual
+from collections import OrderedDict
 
 
 app = Flask(__name__)
@@ -36,7 +37,9 @@ def get_search_results():
 
     us_plot_div = visual.choropleth_map(results_dict["state"].keys(), results_dict["state"].values())
     incident_plot_div = visual.bar_graph(results_dict["incident"].keys(), results_dict["incident"].values())
-    time_plot_div = visual.line_graph(results_dict["date"].keys(), results_dict["date"].values())
+
+    sorted_date_results = OrderedDict(sorted(results_dict["date"].items()))
+    time_plot_div = visual.line_graph(sorted_date_results.keys(), sorted_date_results.values())
 
     return render_template("index.html", incidents=dd.get_categories("incidentType"),
                            hello=Markup(us_plot_div), incident_map=Markup(incident_plot_div),

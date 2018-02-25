@@ -104,6 +104,9 @@ class DisasterData():
                          "incident": {},
                          "date": {}}
 
+        start_date = dataframe["incidentBeginDate"].head(1).iloc[0]
+        end_date = dataframe["incidentBeginDate"].tail(1).iloc[0]
+
         for i, row in dataframe.iterrows():
 
             state = row["state"]
@@ -124,8 +127,6 @@ class DisasterData():
             disaster_dict["incident"][incident] = disaster_dict["incident"].get(incident, 0) + 1
 
             #date
-            start_date = dataframe["incidentBeginDate"].head(1).iloc[0]
-            end_date = dataframe["incidentBeginDate"].tail(1).iloc[0]
 
             if start_date.year == end_date.year:
                 disaster_dict["date"][date.month] = disaster_dict["date"].get(date.month, 0) + 1

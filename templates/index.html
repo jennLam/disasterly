@@ -20,17 +20,18 @@
 
             <div class="list">
 
-              <ul class="list-group" id="myList">
+              <ul>
 
               {% for county in counties|sort %}
               
-                <li class="list-group-item">{{ county }}</li>
-                  <ul class="list-group" id="myList">
+                <li class="content">{{ county }}</li>
+                  <ul>
                   {% for c in counties[county] %}
                     
-                    <li class="list-group-item">{{ c }}</li>
+                    <li class="content">{{ c }}: {{ counties[county][c] }}</li>
                     
                   {% endfor %}
+                  <br/>
                 </ul>
 
 

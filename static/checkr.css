@@ -11,12 +11,22 @@ body {
     background-color: #4f5d75;
     z-index: 9999;
     border: 0;
-    font-family: 'Patua One', cursive;
+    font-family: 'Lato', sans-serif;
     /*font-weight: bold;*/
     font-size: 5pt;
     line-height: 1.42857143 !important;
     letter-spacing: 1px;
     border-radius: 0;
+    padding: 0;
+}
+
+.navbar .navbar-default .input-group {
+  font-size: 10pt;
+  padding: 0;
+}
+
+.navbar-brand {
+  font-family: 'Patua One', cursive;
 }
 
 .navbar li a, .navbar .navbar-brand {

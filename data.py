@@ -36,7 +36,7 @@ class DisasterData():
 
         return result
 
-    def advanced_search(self, state=None, incident_type=None, start_date=None, end_date=None):
+    def __advanced_search(self, state=None, incident_type=None, start_date=None, end_date=None):
         """Advanced search of disaster data."""
 
         condition = self.df
@@ -52,39 +52,63 @@ class DisasterData():
 
         return condition
 
-    def make_dict(self, dataframe):
+    def __make_dict(self, dataframe, column_name, time_measure=None):
+        """Create a dictionary from dataframe using column_name."""
 
-        disaster_dict = {"state": {},
-                         "state_county": {},
-                         "incident": {},
-                         "date": {}}
-
-        start_date = dataframe["incidentBeginDate"].head(1).iloc[0]
-        end_date = dataframe["incidentBeginDate"].tail(1).iloc[0]
+        data_dict = {}
 
         for i, row in dataframe.iterrows():
 
-            state = row["state"]
-            county = row["declaredCountyArea"]
-            incident = row["incidentType"]
-            date = row["incidentBeginDate"]
+            if not time_measure:
+                column = row[column_name]
+            elif time_measure == "year":
+                column = row[column_name].year
+            elif time_measure == "month":
+                column = row[column_name].month
 
-            #state
-            disaster_dict["state"][state] = disaster_dict["state"].get(state, 0) + 1
+            data_dict[column] = data_dict.get(column, 0) + 1
+
+        return data_dict
+
+    def disaster_dict(self, state=None, incident_type=None, start_date=None, end_date=None):
+
+        dataframe = self.__advanced_search(state, incident_type, start_date, end_date)
+
+        unique_disasers = dataframe.drop_duplicates(subset="disasterNumber", keep="last")
+
+        unique_disasers_and_states = dataframe.drop_duplicates(subset=["disasterNumber", "state"], keep="last")
+
+        #incident type
+
+        incident = self.__make_dict(unique_disasers, "incidentType")
+
+        #state
+
+        state = self.__make_dict(unique_disasers_and_states, "state")
+
+        #time
+
+        start_date = unique_disasers["incidentBeginDate"].head(1).iloc[0]
+        end_date = unique_disasers["incidentBeginDate"].tail(1).iloc[0]
+
+        if start_date.year == end_date.year:
+            date = self.__make_dict(unique_disasers, "incidentBeginDate", "month")
+        else:
+            date = self.__make_dict(unique_disasers, "incidentBeginDate", "year")
+
+        disaster_dict = {"state": state,
+                         "incident": incident,
+                         "date": date,
+                         "state_county": {}}
+
+        for i, row in dataframe.iterrows():
+
+            county = row["declaredCountyArea"]
 
             #state and county
-            if state not in disaster_dict["state_county"]:
-                disaster_dict["state_county"][state] = {county: 1}
+            if row["state"] not in disaster_dict["state_county"]:
+                disaster_dict["state_county"][row["state"]] = {county: 1}
             else:
-                disaster_dict["state_county"][state][county] = disaster_dict["state_county"][state].get(county, 0) + 1
-
-            #incident
-            disaster_dict["incident"][incident] = disaster_dict["incident"].get(incident, 0) + 1
-
-            #date
-            if start_date.year == end_date.year:
-                disaster_dict["date"][date.month] = disaster_dict["date"].get(date.month, 0) + 1
-            else:
-                disaster_dict["date"][date.year] = disaster_dict["date"].get(date.year, 0) + 1
+                disaster_dict["state_county"][row["state"]][county] = disaster_dict["state_county"][row["state"]].get(county, 0) + 1
 
         return disaster_dict

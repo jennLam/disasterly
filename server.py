@@ -19,11 +19,15 @@ dd = DisasterData()
 def index():
     """Homepage."""
 
-    adv_search_results = dd.advanced_search()
+    # adv_search_results = dd.advanced_search()
 
-    results_dict = dd.make_dict(adv_search_results)
+    results_dict = dd.disaster_dict()
 
-    us_plot_div = visual.choropleth_map(results_dict["state"].keys(), results_dict["state"].values())
+    blah = dd.df.drop_duplicates(subset=["disasterNumber", "state"], keep="last")
+    us_plot_div = visual.choropleth_map(blah["state"], blah["state"])
+
+
+    # us_plot_div = visual.choropleth_map(results_dict["state"].keys(), results_dict["state"].values())
     incident_plot_div = visual.bar_graph(results_dict["incident"].keys(), results_dict["incident"].values())
 
     sorted_date_results = OrderedDict(sorted(results_dict["date"].items()))
@@ -43,10 +47,11 @@ def get_search_results():
     start_date = request.args.get("start_date")
     end_date = request.args.get("end_date")
 
-    adv_search_results = dd.advanced_search(state=state, incident_type=incident,
-                                            start_date=start_date, end_date=end_date)
+    # adv_search_results = dd.advanced_search(state=state, incident_type=incident,
+    #                                         start_date=start_date, end_date=end_date)
 
-    results_dict = dd.make_dict(adv_search_results)
+    results_dict = dd.disaster_dict(state=state, incident_type=incident,
+                                    start_date=start_date, end_date=end_date)
 
     us_plot_div = visual.choropleth_map(results_dict["state"].keys(), results_dict["state"].values())
     incident_plot_div = visual.bar_graph(results_dict["incident"].keys(), results_dict["incident"].values())

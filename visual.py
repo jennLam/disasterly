@@ -89,7 +89,7 @@ def bar_graph(x_lst, y_lst):
         margin=dict(
             l=45,
             r=20,
-            b=135,
+            b=115,
             t=20,
             pad=2
         )

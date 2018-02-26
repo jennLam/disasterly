@@ -18,19 +18,32 @@ dd = DisasterData()
 @app.route("/")
 def index():
     """Homepage."""
-    return render_template("index.html", incidents=dd.get_categories("incidentType"),
-                           hello="hi", incident_map="hi", time_map="hi")
+
+    adv_search_results = dd.advanced_search()
+
+    results_dict = dd.make_dict(adv_search_results)
+
+    us_plot_div = visual.choropleth_map(results_dict["state"].keys(), results_dict["state"].values())
+    incident_plot_div = visual.bar_graph(results_dict["incident"].keys(), results_dict["incident"].values())
+
+    sorted_date_results = OrderedDict(sorted(results_dict["date"].items()))
+    time_plot_div = visual.line_graph(sorted_date_results.keys(), sorted_date_results.values())
+
+    return render_template("index.html", states=dd.get_categories("state"), incidents=dd.get_categories("incidentType"),
+                           us_map=Markup(us_plot_div), incident_map=Markup(incident_plot_div),
+                           time_map=Markup(time_plot_div), counties=results_dict["state_county"])
 
 
 @app.route("/search")
 def get_search_results():
     """Get search results."""
 
+    state = request.args.get("state")
     incident = request.args.get("incident")
     start_date = request.args.get("start_date")
     end_date = request.args.get("end_date")
 
-    adv_search_results = dd.advanced_search(incident_type=incident,
+    adv_search_results = dd.advanced_search(state=state, incident_type=incident,
                                             start_date=start_date, end_date=end_date)
 
     results_dict = dd.make_dict(adv_search_results)
@@ -41,8 +54,8 @@ def get_search_results():
     sorted_date_results = OrderedDict(sorted(results_dict["date"].items()))
     time_plot_div = visual.line_graph(sorted_date_results.keys(), sorted_date_results.values())
 
-    return render_template("index.html", incidents=dd.get_categories("incidentType"),
-                           hello=Markup(us_plot_div), incident_map=Markup(incident_plot_div),
+    return render_template("index.html", states=dd.get_categories("state"), incidents=dd.get_categories("incidentType"),
+                           us_map=Markup(us_plot_div), incident_map=Markup(incident_plot_div),
                            time_map=Markup(time_plot_div), counties=results_dict["state_county"])
 
 if __name__ == "__main__":

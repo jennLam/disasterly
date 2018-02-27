@@ -21,7 +21,7 @@ class DisasterData():
 
         return items
 
-    def __search_criteria(self, column_name, target, operator):
+    def search_criteria(self, column_name, target, operator):
         """Specify search condition for dataframe."""
 
         if column_name not in list(self.df):
@@ -36,7 +36,7 @@ class DisasterData():
 
         return result
 
-    def __advanced_search(self, state=None, incident_type=None, start_date=None, end_date=None):
+    def advanced_search(self, state=None, incident_type=None, start_date=None, end_date=None):
         """Advanced search of disaster data."""
 
         condition = self.df
@@ -52,7 +52,7 @@ class DisasterData():
 
         return condition
 
-    def __make_dict(self, dataframe, column_name, time_measure=None):
+    def make_dict(self, dataframe, column_name, time_measure=None):
         """Create a dictionary from dataframe using column_name."""
 
         data_dict = {}
@@ -72,7 +72,7 @@ class DisasterData():
 
     def disaster_dict(self, state=None, incident_type=None, start_date=None, end_date=None):
 
-        dataframe = self.__advanced_search(state, incident_type, start_date, end_date)
+        dataframe = self.advanced_search(state, incident_type, start_date, end_date)
 
         unique_disasers = dataframe.drop_duplicates(subset="disasterNumber", keep="last")
 
@@ -80,11 +80,11 @@ class DisasterData():
 
         #incident type
 
-        incident = self.__make_dict(unique_disasers, "incidentType")
+        incident = self.make_dict(unique_disasers, "incidentType")
 
         #state
 
-        state = self.__make_dict(unique_disasers_and_states, "state")
+        state = self.make_dict(unique_disasers_and_states, "state")
 
         #time
 
@@ -92,9 +92,9 @@ class DisasterData():
         end_date = unique_disasers["incidentBeginDate"].tail(1).iloc[0]
 
         if start_date.year == end_date.year:
-            date = self.__make_dict(unique_disasers, "incidentBeginDate", "month")
+            date = self.make_dict(unique_disasers, "incidentBeginDate", "month")
         else:
-            date = self.__make_dict(unique_disasers, "incidentBeginDate", "year")
+            date = self.make_dict(unique_disasers, "incidentBeginDate", "year")
 
         disaster_dict = {"state": state,
                          "incident": incident,

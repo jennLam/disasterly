@@ -4,7 +4,6 @@ click==6.7
 decorator==4.2.1
 enum34==1.1.6
 Flask==0.12.2
-Flask-SQLAlchemy==2.3.2
 functools32==3.2.3.post2
 idna==2.6
 ipython-genutils==0.2.0

@@ -71,7 +71,8 @@ class TestCase(unittest.TestCase):
                                     5: 'Shasta (County)',
                                     6: 'Hood River (County)'}}
 
-        expected = pd.DataFrame(data=OrderedDict(d))
+        expected = pd.DataFrame(data=d)
+        expected = expected[["disasterNumber", "state", "incidentType", "title", "incidentBeginDate", "incidentEndDate", "declaredCountyArea"]]
         actual = self.test_dd.advanced_search()
 
         pdt.assert_frame_equal(expected, actual)

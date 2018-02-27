@@ -21,7 +21,7 @@ class DisasterData():
 
         return items
 
-    def search_criteria(self, column_name, target, operator):
+    def __search_criteria(self, column_name, target, operator):
         """Specify search condition for dataframe."""
 
         if column_name not in list(self.df):

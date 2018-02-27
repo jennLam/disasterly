@@ -56,7 +56,4 @@ def get_search_results():
 
 if __name__ == "__main__":
 
-    app.debug = True
-    app.jinja_env.auto_reload = app.debug
-
-    app.run(port=5000, host="0.0.0.0")
+    app.run()

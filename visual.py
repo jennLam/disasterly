@@ -84,7 +84,6 @@ def bar_graph(x_lst, y_lst):
 
     data = [trace]
     layout = go.Layout(
-        # title='Disaster Incident Types',
         font=dict(family='Lato', size=12, color='#000000'),
         margin=dict(
             l=45,
@@ -119,8 +118,6 @@ def line_graph(x_lst, y_lst):
     data = [trace]
 
     layout = dict(
-        # xaxis=dict(title='Time'),
-        # yaxis=dict(title='Number of Disasters'),
         font=dict(family='Lato', size=12, color='#000000'),
         margin=dict(
             l=45,

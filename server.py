@@ -29,7 +29,7 @@ def index():
 
     return render_template("index.html", states=dd.get_categories("state"), incidents=dd.get_categories("incidentType"),
                            us_map=Markup(us_plot_div), incident_map=Markup(incident_plot_div),
-                           time_map=Markup(time_plot_div), counties=results_dict["state_county"])
+                           time_map=Markup(time_plot_div), states_counties=results_dict["state_county"])
 
 
 @app.route("/search")
@@ -52,7 +52,7 @@ def get_search_results():
 
     return render_template("index.html", states=dd.get_categories("state"), incidents=dd.get_categories("incidentType"),
                            us_map=Markup(us_plot_div), incident_map=Markup(incident_plot_div),
-                           time_map=Markup(time_plot_div), counties=results_dict["state_county"])
+                           time_map=Markup(time_plot_div), states_counties=results_dict["state_county"])
 
 if __name__ == "__main__":
 

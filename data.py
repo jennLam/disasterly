@@ -71,6 +71,7 @@ class DisasterData():
         return data_dict
 
     def disaster_dict(self, state=None, incident_type=None, start_date=None, end_date=None):
+        """Create a dictionary with all disaster information from dataframe from advanced_search."""
 
         dataframe = self.advanced_search(state, incident_type, start_date, end_date)
 

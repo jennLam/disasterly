@@ -32,11 +32,11 @@
           <div class="box">
             <div class="list">
               <ul>
-                {% for county in counties|sort %}
-                <li class="content">{{ county }}</li>
+                {% for state in states_counties|sort %}
+                <li class="topic">{{ state }}</li>
                   <ul>
-                    {% for c in counties[county] %}
-                    <li class="content">{{ c }}: {{ counties[county][c] }}</li>
+                    {% for county in states_counties[state]|sort %}
+                    <li class="content">{{ county }}: {{ states_counties[state][county] }}</li>
                     {% endfor %}
                     <br/>
                   </ul>

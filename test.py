@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import operator as op
 import pandas.util.testing as pdt
-from collections import OrderedDict
 from data import DisasterData
 
 
@@ -50,19 +49,19 @@ class TestCase(unittest.TestCase):
                        5: 'HEAVY RAINS & FLOODING',
                        6: 'HEAVY RAINS & FLOODING'},
              'incidentBeginDate': {0: pd.Timestamp('1964-12-24 00:00:00'),
-                                    1: pd.Timestamp('1964-12-24 00:00:00'),
-                                    2: pd.Timestamp('1964-12-24 00:00:00'),
-                                    3: pd.Timestamp('1964-09-10 00:00:00'),
-                                    4: pd.Timestamp('1964-12-24 00:00:00'),
-                                    5: pd.Timestamp('1964-12-24 00:00:00'),
-                                    6: pd.Timestamp('1964-12-24 00:00:00')},
+                                   1: pd.Timestamp('1964-12-24 00:00:00'),
+                                   2: pd.Timestamp('1964-12-24 00:00:00'),
+                                   3: pd.Timestamp('1964-09-10 00:00:00'),
+                                   4: pd.Timestamp('1964-12-24 00:00:00'),
+                                   5: pd.Timestamp('1964-12-24 00:00:00'),
+                                   6: pd.Timestamp('1964-12-24 00:00:00')},
              'incidentEndDate': {0: pd.Timestamp('1964-12-24 00:00:00'),
-                                    1: pd.Timestamp('1964-12-24 00:00:00'),
-                                    2: pd.Timestamp('1964-12-24 00:00:00'),
-                                    3: pd.Timestamp('1964-09-10 00:00:00'),
-                                    4: pd.Timestamp('1964-12-24 00:00:00'),
-                                    5: pd.Timestamp('1964-12-24 00:00:00'),
-                                    6: pd.Timestamp('1964-12-24 00:00:00')},
+                                 1: pd.Timestamp('1964-12-24 00:00:00'),
+                                 2: pd.Timestamp('1964-12-24 00:00:00'),
+                                 3: pd.Timestamp('1964-09-10 00:00:00'),
+                                 4: pd.Timestamp('1964-12-24 00:00:00'),
+                                 5: pd.Timestamp('1964-12-24 00:00:00'),
+                                 6: pd.Timestamp('1964-12-24 00:00:00')},
              'declaredCountyArea': {0: 'El Dorado (County)',
                                     1: 'Mendocino (County)',
                                     2: 'Nevada (County)',
@@ -79,6 +78,35 @@ class TestCase(unittest.TestCase):
 
     def test_make_dict(self):
         """Test for make_dict."""
+
+        expected1 = {'CA': 4, 'FL': 1, 'OR': 2}
+        expected2 = {9: 1, 12: 6}
+        expected3 = {1964: 7}
+
+        actual1 = self.test_dd.make_dict(self.test_dd.df, "state")
+        actual2 = self.test_dd.make_dict(self.test_dd.df, "incidentBeginDate", "month")
+        actual3 = self.test_dd.make_dict(self.test_dd.df, "incidentBeginDate", "year")
+
+        self.assertEqual(expected1, actual1)
+        self.assertEqual(expected2, actual2)
+        self.assertEqual(expected3, actual3)
+
+    def test_disaster_dict(self):
+        """Test for disaster_dict."""
+
+        expected = {'date': {9: 1, 12: 2},
+                    'incident': {'Flood': 2, 'Hurricane': 1},
+                    'state': {'CA': 1, 'FL': 1, 'OR': 2},
+                    'state_county': {'CA': {'El Dorado (County)': 1,
+                                            'Mendocino (County)': 1,
+                                            'Nevada (County)': 1,
+                                            'San Joaquin (County)': 1},
+                                     'FL': {np.nan: 1},
+                                     'OR': {'Hood River (County)': 1, 'Shasta (County)': 1}}}
+
+        actual = self.test_dd.disaster_dict()
+
+        self.assertEqual(expected, actual)
 
 
 if __name__ == "__main__":

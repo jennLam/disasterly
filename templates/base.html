@@ -66,9 +66,26 @@
     </nav>
     <br/>
 
-    {% block content %}
+<!--     {% block content %}
       put your content here
-    {% endblock %}
+    {% endblock %} -->
+
+    <div class="main">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+
+            <div class="alert alert-{{ category }}">
+              <strong>{{ category|capitalize }}!</strong> {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}
+        put your content here
+      {% endblock %}
+    </div>
 
   </body>
 </html>

@@ -2,8 +2,7 @@ from flask import Flask, render_template, jsonify, request, Markup
 from jinja2 import StrictUndefined
 import os
 from data import DisasterData
-import visual
-from collections import OrderedDict
+from visual import Visual
 
 
 app = Flask(__name__)
@@ -21,11 +20,13 @@ def index():
 
     results_dict = dd.disaster_dict()
 
-    us_plot_div = visual.choropleth_map(results_dict["state"].keys(), results_dict["state"].values())
-    incident_plot_div = visual.bar_graph(results_dict["incident"].keys(), results_dict["incident"].values())
+    visual = Visual(results_dict)
 
-    sorted_date_results = OrderedDict(sorted(results_dict["date"].items()))
-    time_plot_div = visual.line_graph(sorted_date_results.keys(), sorted_date_results.values())
+    visual_dict = visual.create("state", "incident", "date")
+
+    us_plot_div = visual_dict["us_plot_div"]
+    incident_plot_div = visual_dict["incident_plot_div"]
+    time_plot_div = visual_dict["time_plot_div"]
 
     return render_template("index.html", states=dd.get_categories("state"), incidents=dd.get_categories("incidentType"),
                            us_map=Markup(us_plot_div), incident_map=Markup(incident_plot_div),
@@ -44,11 +45,13 @@ def get_search_results():
     results_dict = dd.disaster_dict(state=state, incident_type=incident,
                                     start_date=start_date, end_date=end_date)
 
-    us_plot_div = visual.choropleth_map(results_dict["state"].keys(), results_dict["state"].values())
-    incident_plot_div = visual.bar_graph(results_dict["incident"].keys(), results_dict["incident"].values())
+    visual = Visual(results_dict)
 
-    sorted_date_results = OrderedDict(sorted(results_dict["date"].items()))
-    time_plot_div = visual.line_graph(sorted_date_results.keys(), sorted_date_results.values())
+    visual_dict = visual.create("state", "incident", "date")
+
+    us_plot_div = visual_dict["us_plot_div"]
+    incident_plot_div = visual_dict["incident_plot_div"]
+    time_plot_div = visual_dict["time_plot_div"]
 
     return render_template("index.html", states=dd.get_categories("state"), incidents=dd.get_categories("incidentType"),
                            us_map=Markup(us_plot_div), incident_map=Markup(incident_plot_div),

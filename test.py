@@ -1,9 +1,21 @@
 import unittest
+from server import app
 import pandas as pd
 import numpy as np
 import operator as op
 import pandas.util.testing as pdt
 from data import DisasterData
+
+
+class ServerTests(unittest.TestCase):
+    def setUp(self):
+        """Do before every test."""
+        self.client = app.test_client()
+        app.config["TESTING"] = True
+
+    def test_index(self):
+        result = self.client.get("/")
+        self.assertIn("How Many Disasters Occurred in Each US State?", result.data)
 
 
 class TestCase(unittest.TestCase):
